@@ -1,3 +1,9 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv('.env')
+
+
 class Config(object):
     DEBUG = False
     TESTING = False
@@ -30,8 +36,8 @@ class DevelopmentConfig(Config):
     MAIL_DEFAULT_SENDER = 'http://127.0.0.1:5000/'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 465
-    MAIL_USERNAME = '<youremailaddress>'
-    MAIL_PASSWORD = '<yourpassword>'
+    MAIL_USERNAME = os.environ.get('EMAIL')
+    MAIL_PASSWORD = os.environ.get('PASSWORD')
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
     UPLOAD_FOLDER = 'images'
@@ -39,7 +45,7 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/authortest.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///authortest.db'
     SQLALCHEMY_ECHO = False
     JWT_SECRET_KEY = 'JWT-SECRET'
     SECRET_KEY = 'SECRET-KEY'
