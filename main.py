@@ -1,9 +1,11 @@
 import os
 import logging
 from dotenv import load_dotenv
-from flask import Flask,send_from_directory
+from flask import Flask, send_from_directory
 from flask import jsonify
 from flask_jwt_extended import JWTManager
+from flask_swagger import swagger
+from flask_swagger_ui import get_swaggerui_blueprint
 
 from api.utils.database import db
 from api.utils.responses import response_with
@@ -14,6 +16,7 @@ from api.routes.books import book_routes
 from api.routes.users import user_routes
 from api.utils.email import mail
 
+SWAGGER_URL = '/api/docs'
 app = Flask(__name__)
 load_dotenv('.env')
 
@@ -65,6 +68,19 @@ def not_found(e):
 
 
 # END GLOBAL HTTP CONFIGURATIONS
+
+@app.route("/api/spec")
+def spec():
+    swag = swagger(app, prefix='/api')
+    swag['info']['base'] = "http://localhost:5000"
+    swag['info']['version'] = "1.0"
+    swag['info']['title'] = "Flask Author DB"
+    return jsonify(swag)
+
+
+swaggerui_blueprint = get_swaggerui_blueprint('/api/docs', '/api/spec', config={'app_name': "Flask Author DB"})
+
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 jwt = JWTManager(app)
 db.init_app(app)

@@ -30,8 +30,8 @@ class DevelopmentConfig(Config):
     MAIL_DEFAULT_SENDER = 'http://127.0.0.1:5000/'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 465
-    MAIL_USERNAME = 'youemail'
-    MAIL_PASSWORD = 'yourpassword'
+    MAIL_USERNAME = '<youremailaddress>'
+    MAIL_PASSWORD = '<yourpassword>'
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
     UPLOAD_FOLDER = 'images'
